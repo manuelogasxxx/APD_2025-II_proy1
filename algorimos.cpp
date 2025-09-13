@@ -57,18 +57,18 @@ void oddEvenSerial(vector<int>& arr){
 
 void oddEvenOmp1(vector<int>& arr){
     int n = arr.size();
+    int i=0;
     for(int phase = 0; phase <n;phase ++ ){
         if(phase%2==0){
             #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n) private(i)
-            for (int i = 1; i < n; i++)
+            for (i = 1; i < n; i+=2)
             {
                 if(arr[i-1]>arr[i]) swap(arr[i - 1], arr[i]);
             }
-            
         }
         else{
             #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n) private(i)
-            for (int i = 0; i < n-1; i++)
+            for ( i = 0; i < n-1; i+=2)
             {
                 if(arr[i]>arr[i+1]) swap(arr[i], arr[i+1]);
             }
@@ -78,20 +78,21 @@ void oddEvenOmp1(vector<int>& arr){
 
 void oddEvenOmp2(vector<int>& arr){
     int n= arr.size();
-    #pragma omp parallel num_threads(maxThreads) default(none) shared (arr,n) private(i)
+    int phase=0;
+    #pragma omp parallel num_threads(maxThreads) default(none) shared (arr,n) private(phase)
     {
-        for(int phase = 0; phase <n;phase ++ ){
+        for(phase = 0; phase <n;phase ++ ){
             if(phase%2==0){
-                #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n) private(i)
-                for (int i = 1; i < n; i++)
+                #pragma omp parallel for 
+                for (int i = 1; i < n; i+=2)
                 {
                     if(arr[i-1]>arr[i]) swap(arr[i - 1], arr[i]);
                 }
                 
             }
             else{
-                #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n) private(i)
-                for (int i = 0; i < n-1; i++)
+                #pragma omp parallel for 
+                for (int i = 0; i < n-1; i+=2)
                 {
                     if(arr[i]>arr[i+1]) swap(arr[i], arr[i+1]);
                 }
