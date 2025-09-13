@@ -11,9 +11,10 @@
 #include <sstream>
 using namespace std;
 
-
+//cambiar para que solo llegue a 10mil
 vector<int> generador(int tam){
     vector<int> resultado;
+   
     for(int i=1;i<=tam;i++)
         resultado.push_back(i);
 
@@ -103,10 +104,8 @@ int main(void){
     vector<int> porcentaje ={10,50,100};
     
     //genArchivos("PRUEBA.txt",distribucion,porcentaje,100);
-    genArchivos("1K.txt",distribucion,porcentaje,1000);
-    genArchivos("500.txt",distribucion,porcentaje,500);
-    genArchivos("100.txt",distribucion,porcentaje,100);
-    genArchivos("50.txt",distribucion,porcentaje,50);
+    genArchivos("40K.txt",distribucion,porcentaje,40000);
+
 
     
 

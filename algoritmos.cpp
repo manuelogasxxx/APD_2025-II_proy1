@@ -57,18 +57,17 @@ void oddEvenSerial(vector<int>& arr){
 
 void oddEvenOmp1(vector<int>& arr){
     int n = arr.size();
-    int i=0;
     for(int phase = 0; phase <n;phase ++ ){
         if(phase%2==0){
-            #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n) private(i)
-            for (i = 1; i < n; i+=2)
+            #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n) 
+            for (int i = 1; i < n; i+=2)
             {
                 if(arr[i-1]>arr[i]) swap(arr[i - 1], arr[i]);
             }
         }
         else{
-            #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n) private(i)
-            for ( i = 0; i < n-1; i+=2)
+            #pragma omp parallel for num_threads(maxThreads) default(none) shared(arr,n)
+            for ( int i = 1; i < n-1; i+=2)
             {
                 if(arr[i]>arr[i+1]) swap(arr[i], arr[i+1]);
             }
@@ -92,7 +91,7 @@ void oddEvenOmp2(vector<int>& arr){
             }
             else{
                 #pragma omp parallel for 
-                for (int i = 0; i < n-1; i+=2)
+                for (int i = 1; i < n-1; i+=2)
                 {
                     if(arr[i]>arr[i+1]) swap(arr[i], arr[i+1]);
                 }
@@ -151,9 +150,11 @@ void ejecutar(string archivoEntrada,string archivoSalida){
 
 int main(void){  
 
-    ejecutar("100.txt","bubble100.txt");
+    //ejecutar("100.txt","bubble100.txt");
     //ejecutar("50k.txt","bubble50k.txt");
-    
+    vector<int> prueba={10,9,8,7,6,5,4,3,2,1};
+    oddEvenOmp1(prueba);
+    mostrar(prueba);
 
     return 0;
 }
