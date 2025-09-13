@@ -11,12 +11,14 @@
 #include <sstream>
 using namespace std;
 
-//cambiar para que solo llegue a 10mil
+//generador mod 1001
 vector<int> generador(int tam){
     vector<int> resultado;
-   
-    for(int i=1;i<=tam;i++)
-        resultado.push_back(i);
+    int valor;
+    for(int i=0;i<tam;i++){
+        valor = (i % 10000) + 1;
+        resultado.push_back(valor);   
+    }
 
     return resultado;
 }
@@ -56,6 +58,26 @@ void desordenar(vector<int>& base, float cant) {
     }
 }
 
+void desordenarFisherYates(vector<int>& base, float cant) {
+    if (cant < 0 || cant > 100) {
+        cout << "Error al desordenar" << endl;
+        return;
+    }
+
+    int tam = base.size();
+    int cambios = static_cast<int>(tam * (cant / 100.0f));
+
+    random_device rd;
+    mt19937 gen(rd());
+
+    // Vamos a hacer cambios intercambiando elementos desde el final hacia el principio
+    for (int i = tam - 1; i > tam - 1 - cambios && i > 0; --i) {
+        uniform_int_distribution<> dist(0, i);
+        int j = dist(gen);
+        swap(base[i], base[j]);
+    }
+}
+
 void mostrar(vector<int> exmp){
 	for(int i=0;i<exmp.size();i++)
 		cout<<exmp[i]<<" ";
@@ -85,7 +107,8 @@ void genArchivos(string nombreArchivo,vector<int> distribucion,vector<int> porce
         for(i=0;i<tamPorcentages;i++){
             for(j=0;j<distribucion[i];j++){
                 gen=generador(tam);
-                desordenar(gen,porcentages[i]);
+                //desordenar(gen,porcentages[i]);
+                desordenarFisherYates(gen,porcentages[i]);
                 for(k=0;k<tam;k++){
                     archivo<<gen[k]<<" ";
                 }
